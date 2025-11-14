@@ -29,6 +29,7 @@ export interface VisaPolicy {
   effectiveDate?: string
   expiryDate?: string | null
   updatedBy?: string
+  language?: string
   createdAt: string
   lastUpdatedAt: string
 }
@@ -42,6 +43,7 @@ export interface VisaPolicyQueryParams {
   applicantCountryCode?: string
   visaType?: VisaType
   isActive?: boolean
+  language?: string
 }
 
 // 签证政策列表响应
@@ -67,6 +69,7 @@ export interface VisaPolicyFormData {
   effectiveDate?: string
   expiryDate?: string | null
   updatedBy?: string
+  language?: string
 }
 
 // 政策变更历史

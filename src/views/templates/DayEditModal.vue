@@ -4,6 +4,8 @@
     :title="`编辑第 ${dayData?.dayNumber || 0} 天行程`"
     :width="1000"
     :confirm-loading="loading"
+    :style="{ height: '760px' }"
+    :body-style="{ maxHeight: '660px', overflowY: 'auto' }"
     @ok="handleSubmit"
     @cancel="handleCancel"
   >
@@ -55,7 +57,7 @@
                 </a-button>
               </template>
               <a-row :gutter="16">
-                <a-col :span="12">
+                <a-col :span="6">
                   <a-form-item label="序号" style="margin-bottom: 12px">
                     <a-input-number
                       v-model:value="slot.sequence"
@@ -65,18 +67,18 @@
                     />
                   </a-form-item>
                 </a-col>
-                <a-col :span="12">
+                <a-col :span="6">
                   <a-form-item label="类型" style="margin-bottom: 12px">
                     <a-select v-model:value="slot.type" placeholder="请选择类型" style="width: 100%">
+                      <a-select-option value="landscape">景点</a-select-option>
+                      <a-select-option value="dining">餐饮</a-select-option>
+                      <a-select-option value="hotel">住宿</a-select-option>
+                      <a-select-option value="shopping">购物</a-select-option>
                       <a-select-option value="transport">交通</a-select-option>
-                      <a-select-option value="activity">活动</a-select-option>
-                      <a-select-option value="meal">用餐</a-select-option>
                     </a-select>
                   </a-form-item>
                 </a-col>
-              </a-row>
-              <a-row :gutter="16">
-                <a-col :span="12">
+                <a-col :span="6">
                   <a-form-item label="开始时间" style="margin-bottom: 12px">
                     <a-time-picker
                       v-model:value="slot.startTimeValue"
@@ -86,7 +88,7 @@
                     />
                   </a-form-item>
                 </a-col>
-                <a-col :span="12">
+                <a-col :span="6">
                   <a-form-item label="持续时间（分钟）" style="margin-bottom: 12px">
                     <a-input-number
                       v-model:value="slot.durationMinutes"
@@ -97,47 +99,61 @@
                   </a-form-item>
                 </a-col>
               </a-row>
-              <a-form-item label="标题" style="margin-bottom: 12px">
-                <a-input
-                  v-model:value="slot.title"
-                  placeholder="如：参观奥斯陆大教堂"
-                  :maxlength="255"
-                />
-              </a-form-item>
-              <a-form-item label="地点名称" style="margin-bottom: 12px">
-                <a-input
-                  v-model:value="slot.locationName"
-                  placeholder="地点名称"
-                  :maxlength="255"
-                />
-              </a-form-item>
-              <a-form-item label="所在地区" style="margin-bottom: 12px">
-                <a-cascader
-                  v-model:value="slot.countryRegion"
-                  :options="locationOptions"
-                  placeholder="选择国家/地区"
-                  show-search
-                  allow-clear
-                  style="width: 100%"
-                  :max-tag-count="2"
-                />
-              </a-form-item>
-              <a-form-item label="城市" style="margin-bottom: 12px">
-                <a-input
-                  v-model:value="slot.city"
-                  placeholder="城市"
-                  :maxlength="255"
-                />
-              </a-form-item>
-              <a-form-item label="地点地址" style="margin-bottom: 12px">
-                <a-input
-                  v-model:value="slot.locationAddress"
-                  placeholder="详细地址"
-                  :maxlength="500"
-                />
-              </a-form-item>
               <a-row :gutter="16">
                 <a-col :span="12">
+                  <a-form-item label="标题" style="margin-bottom: 12px">
+                    <a-input
+                      v-model:value="slot.title"
+                      placeholder="如：参观奥斯陆大教堂"
+                      :maxlength="255"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item label="地点名称" style="margin-bottom: 12px">
+                    <a-input
+                      v-model:value="slot.locationName"
+                      placeholder="地点名称"
+                      :maxlength="255"
+                    />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row :gutter="16">
+                <a-col :span="12">
+                  <a-form-item label="所在地区" style="margin-bottom: 12px">
+                    <a-cascader
+                      v-model:value="slot.countryRegion"
+                      :options="locationOptions"
+                      placeholder="选择国家/地区"
+                      show-search
+                      allow-clear
+                      style="width: 100%"
+                      :max-tag-count="2"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item label="城市" style="margin-bottom: 12px">
+                    <a-input
+                      v-model:value="slot.city"
+                      placeholder="城市"
+                      :maxlength="255"
+                    />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row :gutter="16">
+                <a-col :span="12">
+                  <a-form-item label="地点地址" style="margin-bottom: 12px">
+                    <a-input
+                      v-model:value="slot.locationAddress"
+                      placeholder="详细地址"
+                      :maxlength="500"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="6">
                   <a-form-item label="纬度" style="margin-bottom: 12px">
                     <a-input-number
                       v-model:value="slot.latitude"
@@ -147,7 +163,7 @@
                     />
                   </a-form-item>
                 </a-col>
-                <a-col :span="12">
+                <a-col :span="6">
                   <a-form-item label="经度" style="margin-bottom: 12px">
                     <a-input-number
                       v-model:value="slot.longitude"
@@ -194,7 +210,7 @@ import {
   deleteTemplateTimeSlot,
 } from '@/api/template'
 import type { TemplateDay, TemplateTimeSlot } from '@/types/template'
-import { CountryRegionData } from 'country-region-data'
+import countryRegionData from 'country-region-data/data.json'
 
 interface Props {
   open: boolean
@@ -217,16 +233,22 @@ type LocationOption = {
   children?: Array<{ label: string; value: string }>
 }
 
-const locationOptions: LocationOption[] = CountryRegionData.map(
-  ([countryName, countryCode, regions]) => ({
-    label: countryName,
-    value: countryCode || countryName,
-    children: (regions || []).map(([regionName, regionCode]) => ({
-      label: regionName,
-      value: regionCode || regionName,
-    })),
-  })
-)
+type CountryRegionRaw = {
+  countryName: string
+  countryShortCode: string
+  regions?: Array<{ name: string; shortCode: string }>
+}
+
+const locationOptions: LocationOption[] = (
+  countryRegionData as CountryRegionRaw[]
+).map(({ countryName, countryShortCode, regions }) => ({
+  label: countryName,
+  value: countryShortCode || countryName,
+  children: (regions || []).map(({ name, shortCode }) => ({
+    label: name,
+    value: shortCode || name,
+  })),
+}))
 
 const countryMap = new Map<
   string,

@@ -13,7 +13,15 @@ export enum TemplateMode {
 }
 
 // 时段类型
-export type TimeSlotType = 'transport' | 'activity' | 'meal' | string
+export type TimeSlotType =
+  | 'transport'
+  | 'activity'
+  | 'meal'
+  | 'landscape'
+  | 'dining'
+  | 'hotel'
+  | 'shopping'
+  | string
 
 export interface TemplateLocation {
   name?: string
@@ -65,6 +73,7 @@ export interface Template {
   mode: TemplateMode
   modePrimary?: string
   modeTags?: string
+  language?: string
   title: string
   coverImage?: string
   durationDays?: number
@@ -90,6 +99,7 @@ export interface TemplateQueryParams {
   modePrimary?: string
   modeTags?: string | string[]
   keyword?: string
+  language?: string
   page?: number
   limit?: number
 }
@@ -114,6 +124,7 @@ export interface TemplateFormData {
   mode?: TemplateMode
   modePrimary?: string
   modeTags?: string
+  language?: string
   safetyNoticeDefault?: Record<string, any>
   journeyBackground?: any[]
   personaProfile?: Record<string, any>

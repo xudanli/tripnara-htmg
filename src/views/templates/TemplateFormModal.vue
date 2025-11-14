@@ -33,7 +33,7 @@
       </a-row>
 
       <a-row :gutter="16">
-        <a-col :span="8">
+        <a-col :span="6">
           <a-form-item label="状态" name="status">
             <a-select v-model:value="formState.status" placeholder="请选择状态">
               <a-select-option value="draft">草稿</a-select-option>
@@ -42,7 +42,7 @@
             </a-select>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="6">
           <a-form-item label="模式" name="mode">
             <a-select v-model:value="formState.mode" placeholder="请选择模式">
               <a-select-option value="inspiration">灵感</a-select-option>
@@ -51,7 +51,7 @@
             </a-select>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="6">
           <a-form-item label="推荐天数" name="durationDays">
             <a-input-number
               v-model:value="formState.durationDays"
@@ -59,6 +59,14 @@
               placeholder="天数"
               style="width: 100%"
             />
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
+          <a-form-item label="语言" name="language">
+            <a-select v-model:value="formState.language" placeholder="请选择语言">
+              <a-select-option value="zh-CN">简体中文</a-select-option>
+              <a-select-option value="en-US">English</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
       </a-row>
@@ -194,6 +202,7 @@ const formState = reactive<{
   mode: TemplateMode
   modePrimary?: string
   modeTags?: string
+  language?: string
   safetyNoticeDefaultJson?: string
   journeyBackgroundJson?: string
   personaProfileJson?: string
@@ -210,6 +219,7 @@ const formState = reactive<{
   mode: 'inspiration',
   modePrimary: undefined,
   modeTags: undefined,
+  language: 'zh-CN',
   safetyNoticeDefaultJson: undefined,
   journeyBackgroundJson: undefined,
   personaProfileJson: undefined,
@@ -257,6 +267,7 @@ watch(
         mode: template.mode,
         modePrimary: template.modePrimary || '',
         modeTags: template.modeTags || '',
+        language: template.language || 'zh-CN',
         safetyNoticeDefaultJson: stringifyJson(template.safetyNoticeDefault),
         journeyBackgroundJson: stringifyJson(template.journeyBackground),
         personaProfileJson: stringifyJson(template.personaProfile),
@@ -276,6 +287,7 @@ watch(
         mode: 'inspiration',
         modePrimary: undefined,
         modeTags: undefined,
+        language: 'zh-CN',
         safetyNoticeDefaultJson: undefined,
         journeyBackgroundJson: undefined,
         personaProfileJson: undefined,
@@ -304,6 +316,7 @@ const handleSubmit = async () => {
       mode: formState.mode,
       modePrimary: formState.modePrimary,
       modeTags: formState.modeTags,
+      language: formState.language,
       safetyNoticeDefault: parseJson(formState.safetyNoticeDefaultJson),
       journeyBackground: parseJson(formState.journeyBackgroundJson),
       personaProfile: parseJson(formState.personaProfileJson),

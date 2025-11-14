@@ -63,6 +63,9 @@
             <a-descriptions-item label="推荐天数">
               {{ template.durationDays ? `${template.durationDays} 天` : '-' }}
             </a-descriptions-item>
+            <a-descriptions-item label="语言">
+              {{ template.language === 'en-US' ? 'English' : '简体中文' }}
+            </a-descriptions-item>
             <a-descriptions-item label="创建时间">
               {{ formatDate(template.createdAt) }}
             </a-descriptions-item>

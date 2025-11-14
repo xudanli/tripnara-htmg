@@ -2,10 +2,15 @@
   <div class="template-list">
     <div class="page-header">
       <h2>行程模版管理</h2>
-      <a-button type="primary" @click="handleCreate">
-        <template #icon><plus-outlined /></template>
-        新建模版
-      </a-button>
+      <a-space>
+        <a-button @click="importModalVisible = true">
+          导入 JSON
+        </a-button>
+        <a-button type="primary" @click="handleCreate">
+          <template #icon><plus-outlined /></template>
+          新建模版
+        </a-button>
+      </a-space>
     </div>
 
     <!-- 筛选表单 -->
@@ -52,6 +57,17 @@
             style="width: 200px"
             allow-clear
           />
+        </a-form-item>
+        <a-form-item label="语言">
+          <a-select
+            v-model:value="queryParams.language"
+            placeholder="请选择"
+            style="width: 150px"
+            allow-clear
+          >
+            <a-select-option value="zh-CN">简体中文</a-select-option>
+            <a-select-option value="en-US">English</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item label="关键字">
           <a-input
@@ -113,6 +129,7 @@
             <a-space>
               <a-button type="link" size="small" @click="handleView(record)">查看</a-button>
               <a-button type="link" size="small" @click="handleEdit(record)">编辑</a-button>
+              <a-button type="link" size="small" @click="handleExport(record)">导出</a-button>
               <a-button
                 v-if="record.status !== 'published'"
                 type="link"
@@ -137,6 +154,7 @@
       :template="currentTemplate"
       @success="handleFormSuccess"
     />
+    <ImportTemplateModal v-model:open="importModalVisible" @success="handleImportSuccess" />
   </div>
 </template>
 
@@ -145,9 +163,16 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import { getTemplates, deleteTemplate, publishTemplate, cloneTemplate } from '@/api/template'
+import {
+  getTemplates,
+  deleteTemplate,
+  publishTemplate,
+  cloneTemplate,
+  getTemplateById,
+} from '@/api/template'
 import type { Template, TemplateQueryParams, TemplateStatus, TemplateMode } from '@/types/template'
 import TemplateFormModal from './TemplateFormModal.vue'
+import ImportTemplateModal from './ImportTemplateModal.vue'
 
 const router = useRouter()
 
@@ -155,6 +180,7 @@ const loading = ref(false)
 const dataSource = ref<Template[]>([])
 const formModalVisible = ref(false)
 const currentTemplate = ref<Template | null>(null)
+const importModalVisible = ref(false)
 
 const queryParams = reactive<TemplateQueryParams>({
   page: 1,
@@ -163,6 +189,7 @@ const queryParams = reactive<TemplateQueryParams>({
   mode: undefined,
   modePrimary: undefined,
   modeTags: undefined,
+  language: undefined,
   keyword: undefined,
 })
 
@@ -205,6 +232,13 @@ const columns = [
     key: 'modePrimary',
     width: 150,
     ellipsis: true,
+  },
+  {
+    title: '语言',
+    dataIndex: 'language',
+    key: 'language',
+    width: 120,
+      width: 280,
   },
   {
     title: '标签',
@@ -270,6 +304,7 @@ const handleReset = () => {
     mode: undefined,
     modePrimary: undefined,
     modeTags: undefined,
+    language: undefined,
     keyword: undefined,
   })
   pagination.current = 1
@@ -332,9 +367,31 @@ const handleClone = async (record: Template) => {
   }
 }
 
+const handleExport = async (record: Template) => {
+  try {
+    const detail = await getTemplateById(record.id)
+    const blob = new Blob([JSON.stringify(detail, null, 2)], {
+      type: 'application/json',
+    })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${record.title || '行程模版'}.json`
+    link.click()
+    URL.revokeObjectURL(url)
+  } catch (error) {
+    message.error('导出失败')
+  }
+}
+
 const handleFormSuccess = () => {
   formModalVisible.value = false
   currentTemplate.value = null
+  fetchData()
+}
+
+const handleImportSuccess = () => {
+  importModalVisible.value = false
   fetchData()
 }
 
@@ -377,6 +434,11 @@ const getModeColor = (mode: TemplateMode) => {
 const getTags = (tagsStr: string) => {
   if (!tagsStr) return []
   return tagsStr.split(',').map((tag) => tag.trim()).filter(Boolean)
+}
+
+const getLanguageLabel = (language?: string) => {
+  if (language === 'en-US') return 'English'
+  return '简体中文'
 }
 
 onMounted(() => {

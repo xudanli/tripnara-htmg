@@ -52,6 +52,17 @@
             <a-select-option value="permanent-resident-benefit">永久居民优惠</a-select-option>
           </a-select>
         </a-form-item>
+        <a-form-item label="语言">
+          <a-select
+            v-model:value="queryParams.language"
+            placeholder="请选择"
+            style="width: 150px"
+            allow-clear
+          >
+            <a-select-option value="zh-CN">简体中文</a-select-option>
+            <a-select-option value="en-US">English</a-select-option>
+          </a-select>
+        </a-form-item>
         <a-form-item label="状态">
           <a-select
             v-model:value="queryParams.isActive"
@@ -143,6 +154,7 @@ const queryParams = reactive<VisaPolicyQueryParams>({
   applicantCountryCode: undefined,
   visaType: undefined,
   isActive: undefined,
+  language: undefined,
 })
 
 const pagination = reactive({
@@ -199,6 +211,14 @@ const columns = [
     width: 80,
   },
   {
+    title: '语言',
+    dataIndex: 'language',
+    key: 'language',
+    width: 120,
+    customRender: ({ record }: { record: VisaPolicy }) =>
+      record.language === 'en-US' ? 'English' : '简体中文',
+  },
+  {
     title: '生效日期',
     dataIndex: 'effectiveDate',
     key: 'effectiveDate',
@@ -241,6 +261,7 @@ const handleReset = () => {
     applicantCountryCode: undefined,
     visaType: undefined,
     isActive: undefined,
+    language: undefined,
   })
   pagination.current = 1
   fetchData()

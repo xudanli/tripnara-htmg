@@ -21,6 +21,12 @@
           :maxlength="2"
         />
       </a-form-item>
+      <a-form-item label="语言">
+        <a-select v-model:value="formState.language">
+          <a-select-option value="zh-CN">简体中文</a-select-option>
+          <a-select-option value="en-US">English</a-select-option>
+        </a-select>
+      </a-form-item>
       <a-form-item label="目的地国家名称" name="destinationCountryName">
         <a-input v-model:value="formState.destinationCountryName" placeholder="如：日本" />
       </a-form-item>
@@ -140,6 +146,7 @@ const formState = reactive<{
   effectiveDate?: DayjsType | string
   expiryDate?: DayjsType | string | null
   updatedBy: string
+  language?: string
 }>({
   destinationCountryCode: '',
   destinationCountryName: '',
@@ -154,6 +161,7 @@ const formState = reactive<{
   effectiveDate: undefined,
   expiryDate: null,
   updatedBy: 'admin',
+  language: 'zh-CN',
 })
 
 const rules = {
@@ -184,6 +192,7 @@ watch(
         effectiveDate: policy.effectiveDate ? dayjs(policy.effectiveDate) : undefined,
         expiryDate: policy.expiryDate ? dayjs(policy.expiryDate) : null,
         updatedBy: 'admin',
+        language: policy.language || 'zh-CN',
       })
     } else {
       // 重置表单
@@ -201,6 +210,7 @@ watch(
         effectiveDate: undefined,
         expiryDate: null,
         updatedBy: 'admin',
+        language: 'zh-CN',
       })
     }
     formRef.value?.resetFields()
@@ -237,6 +247,7 @@ const handleSubmit = async () => {
           : (formState.expiryDate as DayjsType).format('YYYY-MM-DD')
         : null,
       updatedBy: formState.updatedBy,
+      language: formState.language,
     }
 
     if (isEdit.value && props.policy) {
