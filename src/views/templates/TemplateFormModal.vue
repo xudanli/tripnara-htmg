@@ -13,6 +13,7 @@
       :rules="rules"
       :label-col="{ span: 6 }"
       :wrapper-col="{ span: 18 }"
+      label-align="left"
     >
       <a-row :gutter="16">
         <a-col :span="12">

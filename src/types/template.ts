@@ -15,6 +15,19 @@ export enum TemplateMode {
 // 时段类型
 export type TimeSlotType = 'transport' | 'activity' | 'meal' | string
 
+export interface TemplateLocation {
+  name?: string
+  address?: string
+  countryCode?: string
+  countryName?: string
+  regionCode?: string
+  regionName?: string
+  city?: string
+  latitude?: number
+  longitude?: number
+  [key: string]: any
+}
+
 // 时段信息
 export interface TemplateTimeSlot {
   id?: string
@@ -26,7 +39,7 @@ export interface TemplateTimeSlot {
   title?: string
   activityHighlights?: Record<string, any>
   scenicIntro?: string
-  locationJson?: Record<string, any>
+  locationJson?: TemplateLocation
   detailsJson?: Record<string, any>
   createdAt?: string
   updatedAt?: string

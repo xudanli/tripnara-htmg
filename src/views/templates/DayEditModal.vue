@@ -7,11 +7,12 @@
     @ok="handleSubmit"
     @cancel="handleCancel"
   >
-    <a-form
+<a-form
       ref="formRef"
       :model="formState"
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 20 }"
+      label-align="left"
     >
       <a-form-item label="天数标题">
         <a-input v-model:value="formState.title" placeholder="如：第一天：抵达奥斯陆" :maxlength="255" />
@@ -110,6 +111,24 @@
                   :maxlength="255"
                 />
               </a-form-item>
+              <a-form-item label="所在地区" style="margin-bottom: 12px">
+                <a-cascader
+                  v-model:value="slot.countryRegion"
+                  :options="locationOptions"
+                  placeholder="选择国家/地区"
+                  show-search
+                  allow-clear
+                  style="width: 100%"
+                  :max-tag-count="2"
+                />
+              </a-form-item>
+              <a-form-item label="城市" style="margin-bottom: 12px">
+                <a-input
+                  v-model:value="slot.city"
+                  placeholder="城市"
+                  :maxlength="255"
+                />
+              </a-form-item>
               <a-form-item label="地点地址" style="margin-bottom: 12px">
                 <a-input
                   v-model:value="slot.locationAddress"
@@ -117,6 +136,28 @@
                   :maxlength="500"
                 />
               </a-form-item>
+              <a-row :gutter="16">
+                <a-col :span="12">
+                  <a-form-item label="纬度" style="margin-bottom: 12px">
+                    <a-input-number
+                      v-model:value="slot.latitude"
+                      style="width: 100%"
+                      placeholder="如：18.3358"
+                      :step="0.000001"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item label="经度" style="margin-bottom: 12px">
+                    <a-input-number
+                      v-model:value="slot.longitude"
+                      style="width: 100%"
+                      placeholder="-64.8963"
+                      :step="0.000001"
+                    />
+                  </a-form-item>
+                </a-col>
+              </a-row>
               <a-form-item label="风景介绍" style="margin-bottom: 12px">
                 <a-textarea
                   v-model:value="slot.scenicIntro"
@@ -153,6 +194,7 @@ import {
   deleteTemplateTimeSlot,
 } from '@/api/template'
 import type { TemplateDay, TemplateTimeSlot } from '@/types/template'
+import { CountryRegionData } from 'country-region-data'
 
 interface Props {
   open: boolean
@@ -169,6 +211,39 @@ const emit = defineEmits<{
   success: []
 }>()
 
+type LocationOption = {
+  label: string
+  value: string
+  children?: Array<{ label: string; value: string }>
+}
+
+const locationOptions: LocationOption[] = CountryRegionData.map(
+  ([countryName, countryCode, regions]) => ({
+    label: countryName,
+    value: countryCode || countryName,
+    children: (regions || []).map(([regionName, regionCode]) => ({
+      label: regionName,
+      value: regionCode || regionName,
+    })),
+  })
+)
+
+const countryMap = new Map<
+  string,
+  { label: string; regions: Map<string, string> }
+>()
+
+locationOptions.forEach((country) => {
+  const regionsMap = new Map<string, string>()
+  country.children?.forEach((region) => {
+    regionsMap.set(region.value, region.label)
+  })
+  countryMap.set(country.value, {
+    label: country.label,
+    regions: regionsMap,
+  })
+})
+
 const formRef = ref()
 const loading = ref(false)
 const dayData = computed(() => props.day)
@@ -183,6 +258,10 @@ interface TimeSlotFormItem extends Partial<TemplateTimeSlot> {
   startTimeValue?: Dayjs | string
   locationName?: string
   locationAddress?: string
+  countryRegion?: string[]
+  city?: string
+  latitude?: number | null
+  longitude?: number | null
 }
 
 const formState = reactive<{
@@ -206,13 +285,41 @@ watch(
     if (day) {
       formState.title = day.title || ''
       formState.summary = day.summary || ''
-      formState.timeSlots = (day.timeSlots || []).map((slot) => ({
-        ...slot,
-        tempId: slot.id || generateTempId(),
-        startTimeValue: slot.startTime ? dayjs(slot.startTime, 'HH:mm') : undefined,
-        locationName: slot.locationJson?.name || '',
-        locationAddress: slot.locationJson?.address || '',
-      }))
+      formState.timeSlots = (day.timeSlots || []).map((slot) => {
+        const countryCode =
+          slot.locationJson?.countryCode || slot.locationJson?.country
+        const regionCode =
+          slot.locationJson?.regionCode ||
+          slot.locationJson?.state ||
+          slot.locationJson?.region
+        const countryRegion: string[] = []
+        if (countryCode) countryRegion.push(countryCode)
+        if (regionCode) countryRegion.push(regionCode)
+
+        return {
+          ...slot,
+          tempId: slot.id || generateTempId(),
+          startTimeValue: slot.startTime
+            ? dayjs(slot.startTime, 'HH:mm')
+            : undefined,
+          locationName: slot.locationJson?.name || '',
+          locationAddress: slot.locationJson?.address || '',
+          countryRegion: countryRegion.length ? countryRegion : undefined,
+          city: slot.locationJson?.city || '',
+          latitude:
+            typeof slot.locationJson?.latitude === 'number'
+              ? slot.locationJson?.latitude
+              : slot.locationJson?.latitude
+              ? Number(slot.locationJson?.latitude)
+              : undefined,
+          longitude:
+            typeof slot.locationJson?.longitude === 'number'
+              ? slot.locationJson?.longitude
+              : slot.locationJson?.longitude
+              ? Number(slot.locationJson?.longitude)
+              : undefined,
+        }
+      })
     } else {
       formState.title = ''
       formState.summary = ''
@@ -237,11 +344,61 @@ const handleAddSlot = () => {
     locationName: '',
     locationAddress: '',
     scenicIntro: '',
+    countryRegion: undefined,
+    city: '',
+    latitude: undefined,
+    longitude: undefined,
   })
 }
 
 const handleRemoveSlot = (index: number) => {
   formState.timeSlots.splice(index, 1)
+}
+
+const formatTimeValue = (value?: Dayjs | string) => {
+  if (!value) return undefined
+  return dayjs.isDayjs(value) ? value.format('HH:mm') : value
+}
+
+const buildLocationJson = (slot: TimeSlotFormItem) => {
+  const [countryCode, regionCode] = slot.countryRegion || []
+  const countryInfo = countryCode ? countryMap.get(countryCode) : undefined
+  const regionName = regionCode
+    ? countryInfo?.regions.get(regionCode) || undefined
+    : undefined
+
+  const latitude =
+    slot.latitude === undefined || slot.latitude === null
+      ? undefined
+      : Number(slot.latitude)
+  const longitude =
+    slot.longitude === undefined || slot.longitude === null
+      ? undefined
+      : Number(slot.longitude)
+
+  if (
+    !slot.locationName &&
+    !slot.locationAddress &&
+    !countryCode &&
+    !regionCode &&
+    !slot.city &&
+    latitude === undefined &&
+    longitude === undefined
+  ) {
+    return slot.locationJson
+  }
+
+  return {
+    name: slot.locationName,
+    address: slot.locationAddress,
+    city: slot.city,
+    countryCode,
+    countryName: countryInfo?.label,
+    regionCode,
+    regionName,
+    latitude,
+    longitude,
+  }
 }
 
 const handleSubmit = async () => {
@@ -308,16 +465,10 @@ const handleSubmit = async () => {
         sequence: slot.sequence,
         type: slot.type,
         title: slot.title,
-        startTime:
-          slot.startTimeValue instanceof dayjs
-            ? slot.startTimeValue.format('HH:mm')
-            : slot.startTimeValue,
+        startTime: formatTimeValue(slot.startTimeValue),
         durationMinutes: slot.durationMinutes,
         scenicIntro: slot.scenicIntro,
-        locationJson: {
-          name: slot.locationName,
-          address: slot.locationAddress,
-        },
+        locationJson: buildLocationJson(slot),
       }
       await updateTemplateTimeSlot(props.templateId, dayId, id, slotData)
     }
@@ -328,16 +479,10 @@ const handleSubmit = async () => {
         sequence: slot.sequence!,
         type: slot.type,
         title: slot.title,
-        startTime:
-          slot.startTimeValue instanceof dayjs
-            ? slot.startTimeValue.format('HH:mm')
-            : slot.startTimeValue,
+        startTime: formatTimeValue(slot.startTimeValue),
         durationMinutes: slot.durationMinutes,
         scenicIntro: slot.scenicIntro,
-        locationJson: {
-          name: slot.locationName,
-          address: slot.locationAddress,
-        },
+        locationJson: buildLocationJson(slot),
       }
       await createTemplateTimeSlot(props.templateId, dayId, slotData)
     }
