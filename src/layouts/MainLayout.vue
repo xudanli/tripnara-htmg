@@ -41,9 +41,9 @@ import { useRouter, useRoute } from 'vue-router'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  FileTextOutlined,
   GlobalOutlined,
   DashboardOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons-vue'
 import { logout, getUsername } from '@/utils/auth'
 import { message } from 'ant-design-vue'
@@ -69,7 +69,7 @@ const menuItems = [
     title: '签证管理',
   },
   {
-    key: '/templates',
+    key: '/itineraries',
     icon: () => h(FileTextOutlined),
     label: '行程模版',
     title: '行程模版',

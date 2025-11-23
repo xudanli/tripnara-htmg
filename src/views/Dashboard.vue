@@ -40,7 +40,7 @@ const modules = ref([
   },
   {
     name: '行程模版',
-    path: '/templates',
+    path: '/itineraries',
     description: '管理旅行行程模版，包括创建、编辑、删除和查看详情',
   },
 ])

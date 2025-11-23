@@ -1,0 +1,347 @@
+{
+  "itineraryData": {
+    "title": "冰岛5日游",
+    "destination": "冰岛",
+    "duration": 5,
+    "budget": "medium",
+    "preferences": ["自然风光", "极光观赏", "温泉体验"],
+    "travelStyle": "moderate",
+    "recommendations": {
+      "accommodation": "推荐入住雷克雅未克市中心的酒店，方便游览和用餐。建议选择包含早餐的酒店，节省时间和费用。",
+      "transportation": "建议租车自驾，冰岛路况良好，自驾可以更灵活地安排行程。也可以选择参加当地旅行团。",
+      "food": "推荐尝试冰岛特色美食：羊肉汤、新鲜海鲜、skyr酸奶。当地餐厅价格较高，建议提前预订。",
+      "tips": "这个5天冰岛行程覆盖雷克雅未克、黄金圈、南岸黑沙滩和蓝湖温泉，体验北极光、地质奇观和当地美食。行程紧凑而合理，强调自然探险和文化沉浸，总成本约2000美元，包括交通、餐饮、景点和住宿。"
+    },
+    "days": [
+      {
+        "day": 1,
+        "date": "2025-11-21",
+        "timeSlots": [
+          {
+            "time": "08:00",
+            "title": "抵达雷克雅未克",
+            "activity": "从机场前往市区",
+            "type": "transport",
+            "coordinates": {
+              "lat": 64.1283,
+              "lng": -21.8278
+            },
+            "notes": "从机场乘坐巴士或出租车前往市区，沿途欣赏冰岛独特的火山地貌和海岸线。",
+            "details": {
+              "description": "从机场乘坐巴士或出租车前往市区",
+              "name": {
+                "chinese": "凯夫拉维克国际机场",
+                "english": "Keflavík International Airport",
+                "local": "Keflavíkurflugvöllur"
+              },
+              "address": {
+                "chinese": "冰岛雷克雅未克凯夫拉维克国际机场",
+                "english": "Keflavík International Airport, Iceland",
+                "local": "Keflavíkurflugvöllur, Ísland"
+              },
+              "transportation": "从雷克雅未克市中心可乘坐Flybus机场快线直达机场，车程约45分钟",
+              "openingHours": "24小时开放",
+              "pricing": {
+                "detail": "Flybus单程票价约3500冰岛克朗"
+              },
+              "rating": 4,
+              "recommendations": {
+                "visitTips": "建议提前2小时到达办理登机",
+                "bestTimeToVisit": "航班抵达时间",
+                "nearbyAttractions": "蓝湖温泉（距离约20分钟车程）",
+                "visitDuration": 60
+              },
+              "contact": {
+                "info": "官网：www.kefairport.is，电话：+354 425 0600"
+              },
+              "accessibility": "提供轮椅通道、无障碍卫生间",
+              "category": "机场"
+            },
+            "cost": 50,
+            "duration": 60
+          },
+          {
+            "time": "10:00",
+            "title": "入住酒店",
+            "activity": "办理入住手续，存放行李",
+            "type": "hotel",
+            "coordinates": {
+              "lat": 64.1466,
+              "lng": -21.9426
+            },
+            "notes": "入住市中心酒店，享受舒适客房和冰岛特色装饰。",
+            "details": {
+              "description": "入住市中心酒店",
+              "name": {
+                "chinese": "北极光之梦酒店",
+                "english": "Northern Lights Dream Hotel",
+                "local": "Northern Lights Dream Hotel"
+              },
+              "address": {
+                "chinese": "冰岛雷克雅未克市中心，北极光大街1号",
+                "english": "Northern Lights Avenue 1, 101 Reykjavík, Iceland",
+                "local": "Northern Lights Avenue 1, 101 Reykjavík, Ísland"
+              },
+              "transportation": "从机场乘坐Flybus至BSI巴士总站，转乘1路或3路公交车至哈尔格林姆教堂站",
+              "openingHours": "24小时开放，前台服务时间：07:00-23:00",
+              "pricing": {
+                "detail": "标准间每晚约25000冰岛克朗起，含早餐"
+              },
+              "rating": 4.5,
+              "recommendations": {
+                "visitTips": "最佳时间为9月至4月，北极光活跃期",
+                "bestTimeToVisit": "9月至4月",
+                "nearbyAttractions": "哈尔格林姆教堂、雷克雅未克旧港",
+                "visitDuration": 120
+              },
+              "contact": {
+                "info": "电话：+354 123 4567"
+              },
+              "accessibility": "酒店配备无障碍通道、电梯和专用卫生间",
+              "category": "酒店"
+            },
+            "cost": 200,
+            "duration": 60
+          },
+          {
+            "time": "14:00",
+            "title": "漫步雷克雅未克彩色街巷",
+            "activity": "探索雷克雅未克老城区",
+            "type": "attraction",
+            "coordinates": {
+              "lat": 64.147,
+              "lng": -21.94
+            },
+            "notes": "探索雷克雅未克老城区，漫步于色彩斑斓的房屋和艺术街区。",
+            "details": {
+              "description": "探索雷克雅未克老城区，漫步于色彩斑斓的房屋和艺术街区",
+              "name": {
+                "chinese": "雷克雅未克彩色街巷",
+                "english": "Reykjavík Colorful Streets",
+                "local": "Litlu Reykjavík"
+              },
+              "address": {
+                "chinese": "冰岛雷克雅未克市中心区域",
+                "english": "Reykjavík City Center, Iceland",
+                "local": "Reykjavík miðbær, Ísland"
+              },
+              "transportation": "从雷克雅未克市中心步行可达",
+              "openingHours": "全天开放",
+              "pricing": {
+                "detail": "免费"
+              },
+              "rating": 4.5,
+              "recommendations": {
+                "visitTips": "最佳游览时间为夏季（6月至8月），天气温和，日照时间长",
+                "bestTimeToVisit": "夏季（6月至8月）",
+                "nearbyAttractions": "哈尔格林姆教堂、太阳航海者雕塑",
+                "visitDuration": 90
+              },
+              "contact": {
+                "info": "雷克雅未克旅游局官网：visitreykjavik.is"
+              },
+              "accessibility": "街道平坦，适合步行和轮椅通行",
+              "category": "城市漫步景点"
+            },
+            "cost": 0,
+            "duration": 120
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "date": "2025-11-22",
+        "timeSlots": [
+          {
+            "time": "08:00",
+            "title": "黄金圈一日游",
+            "activity": "前往黄金圈景区",
+            "type": "transport",
+            "coordinates": {
+              "lat": 64.255,
+              "lng": -20.5
+            },
+            "notes": "租车或参加旅行团前往黄金圈，沿途欣赏冰岛高原风光。",
+            "details": {
+              "description": "前往黄金圈景区",
+              "name": {
+                "chinese": "黄金圈",
+                "english": "Golden Circle",
+                "local": "Gullni hringurinn"
+              },
+              "address": {
+                "chinese": "冰岛黄金圈地区",
+                "english": "Golden Circle, Iceland",
+                "local": "Gullni hringurinn, Ísland"
+              },
+              "transportation": "从雷克雅未克市中心自驾沿1号公路前往，车程约40分钟",
+              "openingHours": "全天开放",
+              "pricing": {
+                "detail": "免费（自驾活动无门票），但需支付租车费用"
+              },
+              "rating": 5,
+              "recommendations": {
+                "visitTips": "最佳游览时间为夏季（6-8月），天气晴朗，日照长",
+                "bestTimeToVisit": "夏季（6月至8月）",
+                "nearbyAttractions": "Þingvellir国家公园、Geysir间歇泉、Gullfoss瀑布",
+                "visitDuration": 480
+              },
+              "contact": {
+                "info": "冰岛旅游局官网：www.visiticeland.com"
+              },
+              "accessibility": "部分路段无障碍",
+              "category": "自驾路线"
+            },
+            "cost": 100,
+            "duration": 120
+          },
+          {
+            "time": "10:30",
+            "title": "探访辛格维利尔国家公园",
+            "activity": "漫步于北美和欧亚板块裂缝",
+            "type": "attraction",
+            "coordinates": {
+              "lat": 64.255,
+              "lng": -21.129
+            },
+            "notes": "漫步于北美和欧亚板块裂缝，了解冰岛地质历史。",
+            "details": {
+              "description": "漫步于北美和欧亚板块裂缝，了解冰岛地质历史",
+              "name": {
+                "chinese": "辛格维利尔国家公园",
+                "english": "Þingvellir National Park",
+                "local": "Þingvellir"
+              },
+              "address": {
+                "chinese": "冰岛辛格维利尔地区",
+                "english": "Þingvellir, 801 Selfoss, Iceland",
+                "local": "Þingvellir, 801 Selfoss, Ísland"
+              },
+              "transportation": "从雷克雅未克市中心自驾沿1号公路向东行驶约40公里",
+              "openingHours": "全年24小时开放",
+              "pricing": {
+                "detail": "免费进入公园；停车费：小型车约750冰岛克朗/天"
+              },
+              "rating": 5,
+              "recommendations": {
+                "visitTips": "最佳游览时间：6月至8月，天气温和、日照长",
+                "bestTimeToVisit": "夏季（6月-8月）上午9点至下午5点",
+                "nearbyAttractions": "议会湖、欧亚与北美板块裂缝",
+                "visitDuration": 180
+              },
+              "contact": {
+                "info": "官网：www.thingvellir.is"
+              },
+              "accessibility": "主要步道部分轮椅可达",
+              "category": "国家公园"
+            },
+            "cost": 0,
+            "duration": 120
+          },
+          {
+            "time": "13:00",
+            "title": "邂逅盖歇尔间歇泉",
+            "activity": "观看间歇泉喷发",
+            "type": "attraction",
+            "coordinates": {
+              "lat": 64.31,
+              "lng": -20.3
+            },
+            "notes": "观看盖歇尔间歇泉每隔几分钟喷发一次的热水柱。",
+            "details": {
+              "description": "观看盖歇尔间歇泉每隔几分钟喷发一次的热水柱",
+              "name": {
+                "chinese": "盖歇尔间歇泉",
+                "english": "Geysir",
+                "local": "Geysir"
+              },
+              "address": {
+                "chinese": "冰岛黄金圈地区，盖歇尔间歇泉景区",
+                "english": "Geysir, Golden Circle, Iceland",
+                "local": "Geysir, Gullni hringurinn, Ísland"
+              },
+              "transportation": "从雷克雅未克市中心自驾沿1号公路向东行驶约100公里",
+              "openingHours": "全天开放",
+              "pricing": {
+                "detail": "免费入场"
+              },
+              "rating": 4.5,
+              "recommendations": {
+                "visitTips": "保持安全距离，喷发时蒸汽温度高",
+                "bestTimeToVisit": "夏季上午10点至下午4点",
+                "nearbyAttractions": "古佛斯瀑布、辛格维利尔国家公园",
+                "visitDuration": 45
+              },
+              "contact": {
+                "info": "冰岛旅游局官网：www.visiticeland.com"
+              },
+              "accessibility": "主要区域有铺装步道，轮椅可通行",
+              "category": "自然景点"
+            },
+            "cost": 0,
+            "duration": 90
+          }
+        ]
+      }
+    ],
+    "totalCost": 2000,
+    "summary": "这个5天冰岛行程覆盖雷克雅未克、黄金圈、南岸黑沙滩和蓝湖温泉，体验北极光、地质奇观和当地美食。行程紧凑而合理，强调自然探险和文化沉浸，总成本约2000美元，包括交通、餐饮、景点和住宿。"
+  },
+  "tasks": [
+    {
+      "title": "确认护照有效期及前往冰岛是否需要签证/入境许可",
+      "completed": false,
+      "category": "preparation",
+      "destination": "冰岛",
+      "links": [
+        {
+          "label": "IATA 入境政策查询",
+          "url": "https://www.iatatravelcentre.com/"
+        }
+      ]
+    },
+    {
+      "title": "预订往返冰岛的核心交通（机票/火车），并关注托运行李政策",
+      "completed": false,
+      "category": "preparation",
+      "destination": "冰岛",
+      "links": [
+        {
+          "label": "OAG 行李政策汇总",
+          "url": "https://www.oag.com/baggage-allowance"
+        }
+      ]
+    },
+    {
+      "title": "提前锁定首晚及末晚住宿，确保行程有灵活的落脚点",
+      "completed": false,
+      "category": "preparation",
+      "destination": "冰岛"
+    },
+    {
+      "title": "购买旅行保险，记录大使馆/紧急联系人信息",
+      "completed": false,
+      "category": "preparation",
+      "destination": "冰岛",
+      "links": [
+        {
+          "label": "外交部领事服务网",
+          "url": "https://cs.mfa.gov.cn/"
+        }
+      ]
+    },
+    {
+      "title": "根据当地气候与活动，准备详细的行前打包清单",
+      "completed": false,
+      "category": "preparation",
+      "destination": "冰岛",
+      "links": [
+        {
+          "label": "世界气象组织气候信息",
+          "url": "https://public.wmo.int/en/our-mandate/climate"
+        }
+      ]
+    }
+  ]
+}
+
