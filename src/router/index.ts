@@ -38,6 +38,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/itinerary/ItineraryDetail.vue'),
         meta: { title: '行程模版详情' },
       },
+      {
+        path: '/alerts',
+        name: 'AlertManagement',
+        component: () => import('@/views/alert/AlertList.vue'),
+        meta: { title: '旅行安全提示' },
+      },
     ],
   },
 ]

@@ -194,7 +194,14 @@ const rules = {
 watch(
   () => props.itinerary,
   (itinerary) => {
+    console.log('=== ItineraryFormModal: itinerary 变化 ===')
+    console.log('itinerary:', itinerary)
+    console.log('itinerary?.id:', itinerary?.id)
+    console.log('是否为编辑模式:', !!itinerary?.id)
+    
     if (itinerary) {
+      console.log('填充表单数据（编辑模式）')
+      console.log('原始 totalCost:', itinerary.itineraryData?.totalCost)
       Object.assign(formState, {
         title: itinerary.itineraryData?.title || '',
         destination: itinerary.itineraryData?.destination || '',
@@ -209,13 +216,19 @@ watch(
           tips: '',
         },
         days: itinerary.itineraryData?.days || [],
-        totalCost: itinerary.itineraryData?.totalCost,
+        // totalCost: 保留原始值，包括 0
+        totalCost: itinerary.itineraryData?.totalCost !== undefined && itinerary.itineraryData?.totalCost !== null
+          ? itinerary.itineraryData.totalCost
+          : undefined,
         summary: itinerary.itineraryData?.summary || '',
         status: itinerary.status || 'draft',
         language: itinerary.language || 'zh-CN',
         tasks: itinerary.tasks || [],
       })
+      console.log('表单数据已填充:', formState)
+      console.log('填充后的 totalCost:', formState.totalCost)
     } else {
+      console.log('重置表单数据（新建模式）')
       // 重置表单
       Object.assign(formState, {
         title: '',
@@ -249,29 +262,65 @@ const handleSubmit = async () => {
 
     if (props.itinerary?.id) {
       // 更新模式：根据接口文档，所有字段都是可选的，只传入需要更新的字段
-      // 发送表单中所有字段的值（包括空值），由后端决定是否更新
-      // 注意：这里发送完整表单数据，实际使用时可以根据需要只发送变更的字段
+      // 注意：编辑基本信息时，不包含 days 和 tasks，因为它们由其他编辑组件管理
       const payload: Partial<ItineraryFormData> = {}
+      
+      console.log('=== 编辑行程模版 ===')
+      console.log('行程 ID:', props.itinerary.id)
+      console.log('表单数据:', formState)
       
       // 必填字段
       if (formState.title !== undefined) payload.title = formState.title
       
-      // 可选字段：发送所有有定义的值（包括空字符串和空数组）
+      // 可选字段：只发送基本信息字段，不包含 days 和 tasks
       if (formState.destination !== undefined) payload.destination = formState.destination
       if (formState.duration !== undefined) payload.duration = formState.duration
       if (formState.budget !== undefined) payload.budget = formState.budget
       if (formState.preferences !== undefined) payload.preferences = formState.preferences
       if (formState.travelStyle !== undefined) payload.travelStyle = formState.travelStyle
       if (formState.recommendations !== undefined) payload.recommendations = formState.recommendations
-      if (formState.days !== undefined) payload.days = formState.days
-      if (formState.totalCost !== undefined) payload.totalCost = formState.totalCost
+      // 注意：不包含 days 和 tasks，因为它们由 DayEditModal、TimeSlotEditModal 和 TaskEditModal 管理
+      // totalCost: 特殊处理，避免意外将值设置为 0
+      const originalTotalCost = props.itinerary?.itineraryData?.totalCost
+      const currentTotalCost = formState.totalCost
+      console.log('=== totalCost 检查 ===')
+      console.log('原始 totalCost:', originalTotalCost, '类型:', typeof originalTotalCost)
+      console.log('表单 totalCost:', currentTotalCost, '类型:', typeof currentTotalCost)
+      
+      // 只在值真正改变时才更新 totalCost
+      if (currentTotalCost !== undefined && currentTotalCost !== null) {
+        // 如果原始值和新值相同，不更新（避免不必要的请求）
+        if (originalTotalCost === currentTotalCost) {
+          console.log('totalCost 未改变，不更新:', currentTotalCost)
+        } else {
+          // 情况1: 如果原始值是 undefined/null，且新值是 0，可能是 a-input-number 的默认行为，不更新
+          if ((originalTotalCost === undefined || originalTotalCost === null) && currentTotalCost === 0) {
+            console.warn('⚠️ 警告：原始 totalCost 是', originalTotalCost, '，表单值是 0，可能是输入框默认值。不更新此字段，保持原值。')
+            // 不包含 totalCost，保持原值
+          }
+          // 情况2: 如果原始值存在且非零，但新值是 0，可能是输入框被清空导致的
+          else if (originalTotalCost !== undefined && originalTotalCost !== null && originalTotalCost !== 0 && currentTotalCost === 0) {
+            console.warn('⚠️ 警告：totalCost 从', originalTotalCost, '变成了 0，可能是输入框被清空。不更新此字段，保持原值。')
+            // 不包含 totalCost，保持原值
+          }
+          // 情况3: 其他情况，正常更新（包括：原始值是 undefined/null 且新值非零，或原始值和新值都是非零但不同）
+          else {
+            payload.totalCost = currentTotalCost
+            console.log('✅ totalCost 将被更新:', originalTotalCost, '->', currentTotalCost)
+          }
+        }
+      } else {
+        console.log('totalCost 未定义或为 null，不包含在更新中（保持原值）')
+      }
       if (formState.summary !== undefined) payload.summary = formState.summary
       if (formState.status !== undefined) payload.status = formState.status
       if (formState.language !== undefined) payload.language = formState.language
-      if (formState.tasks !== undefined) payload.tasks = formState.tasks
+
+      console.log('发送的更新数据:', payload)
 
       try {
-        await updateItinerary(props.itinerary.id, payload)
+        const result = await updateItinerary(props.itinerary.id, payload)
+        console.log('更新成功，返回结果:', result)
         message.success('更新成功')
         emit('success')
       } catch (error: any) {

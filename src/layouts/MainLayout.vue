@@ -44,6 +44,7 @@ import {
   GlobalOutlined,
   DashboardOutlined,
   FileTextOutlined,
+  SafetyOutlined,
 } from '@ant-design/icons-vue'
 import { logout, getUsername } from '@/utils/auth'
 import { message } from 'ant-design-vue'
@@ -73,6 +74,12 @@ const menuItems = [
     icon: () => h(FileTextOutlined),
     label: '行程模版',
     title: '行程模版',
+  },
+  {
+    key: '/alerts',
+    icon: () => h(SafetyOutlined),
+    label: '安全提示',
+    title: '安全提示',
   },
 ]
 
